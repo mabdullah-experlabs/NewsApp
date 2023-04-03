@@ -8,5 +8,6 @@ class Constants {
     }
 }
 enum class Countries(val country:String){
-    UnitedStatesOfAmerica("us")
+    UnitedStatesOfAmerica("us"),
+    UnitedKingdom("uk")
 }
