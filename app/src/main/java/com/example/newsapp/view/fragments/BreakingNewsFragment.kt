@@ -60,23 +60,12 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
             }
         }
 
-//        if (activity is ArticleInterface){
-//            (activity as ArticleInterface).let {
-//                articleInterface = it
-//            }
-//        }
-
 
     }
 
     private fun onItemClickListener(article: Article) {
-        val bundle = Bundle().apply {
-            putSerializable("article", article)
-        }
-        findNavController().navigate(
-            R.id.action_breakingNewsFragment_to_articleFragment,
-            bundle
-        )
+        val action = BreakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(article = article)
+        findNavController().navigate(action)
     }
 
     private fun hideProgressBar() {
@@ -96,11 +85,5 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
         }
     }
 
-//    override fun onTitleReceived(title: String) {
-//         Toast.makeText(requireContext(), "Article saved: $title", Toast.LENGTH_SHORT).show()
-////        toast.setGravity(Gravity.TOP, 0, 0)
-////        toast.show()
-//        Log.i("Masla","----")
-//    }
 
 }

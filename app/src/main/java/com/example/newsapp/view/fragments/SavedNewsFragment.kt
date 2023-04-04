@@ -78,13 +78,9 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
 
     }
     private fun onItemClickListener(article: Article) {
-        val bundle = Bundle().apply {
-            putSerializable("article", article)
-        }
-        findNavController().navigate(
-            R.id.action_savedNewsFragment_to_articleFragment ,
-            bundle
-        )
+
+        val action = SavedNewsFragmentDirections.actionSavedNewsFragmentToArticleFragment(article = article)
+        findNavController().navigate(action)
     }
 
     private fun setupRecyclerView(){

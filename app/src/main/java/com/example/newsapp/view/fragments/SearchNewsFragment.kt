@@ -9,13 +9,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
-import com.example.newsapp.view.adapters.NewsAdapter
 import com.example.newsapp.databinding.FragmentSearchNewsBinding
 import com.example.newsapp.model.data_classes.Article
-import com.example.newsapp.view.NewsActivity
-import com.example.newsapp.viewmodel.NewsViewModel
 import com.example.newsapp.utils.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.example.newsapp.utils.Resource
+import com.example.newsapp.view.NewsActivity
+import com.example.newsapp.view.adapters.NewsAdapter
+import com.example.newsapp.viewmodel.NewsViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -40,13 +40,13 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
         setupRecyclerView()
 
         //adding delay for search
-        var job: Job?=null
-        binding.etSearch.addTextChangedListener {editable->
+        var job: Job? = null
+        binding.etSearch.addTextChangedListener { editable ->
             job?.cancel()
             job = MainScope().launch {
                 delay(SEARCH_NEWS_TIME_DELAY)
                 editable?.let {
-                    if(editable.toString().isNotEmpty()){
+                    if (editable.toString().isNotEmpty()) {
                         viewModel.searchNews(editable.toString())
                     }
                 }
@@ -54,21 +54,22 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.searchNews.collectLatest { response->
-                when(response){
-                    is Resource.Success->{
+            viewModel.searchNews.collectLatest { response ->
+                when (response) {
+                    is Resource.Success -> {
                         hideProgressBar()
-                        response.data?.let{
+                        response.data?.let {
                             newsAdapter.updateList(it.articles)
                         }
                     }
-                    is Resource.Error ->{
+                    is Resource.Error -> {
                         hideProgressBar()
-                        response.message?.let{
-                            Toast.makeText(activity,"An Error Occurred: $it",Toast.LENGTH_SHORT).show()
+                        response.message?.let {
+                            Toast.makeText(activity, "An Error Occurred: $it", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
-                    is Resource.Loading->{
+                    is Resource.Loading -> {
                         showProgressBar()
                     }
                 }
@@ -78,28 +79,25 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
     }
 
     private fun onItemClickListener(article: Article) {
-        val bundle = Bundle().apply {
-            putSerializable("article", article)
-        }
-        findNavController().navigate(
-            R.id.action_searchNewsFragment_to_articleFragment ,
-            bundle
-        )
+        val action =
+            SavedNewsFragmentDirections.actionSavedNewsFragmentToArticleFragment(article = article)
+        findNavController().navigate(action)
     }
 
     private fun hideProgressBar() {
-        binding.paginationProgressBar.visibility =View.INVISIBLE
+        binding.paginationProgressBar.visibility = View.INVISIBLE
     }
 
     private fun showProgressBar() {
-        binding.paginationProgressBar.visibility =View.VISIBLE
+        binding.paginationProgressBar.visibility = View.VISIBLE
     }
-    private fun setupRecyclerView(){
 
-        newsAdapter = NewsAdapter(listOf(),this ::onItemClickListener)
+    private fun setupRecyclerView() {
+
+        newsAdapter = NewsAdapter(listOf(), this::onItemClickListener)
         binding.rvSearchNews.apply {
-            binding.rvSearchNews.adapter=newsAdapter
-            layoutManager= LinearLayoutManager(activity)
+            binding.rvSearchNews.adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity)
 
         }
     }

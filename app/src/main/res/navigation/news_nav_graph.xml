@@ -15,6 +15,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_breakingNewsFragment_to_sharedNewsFragment"
+            app:destination="@id/sharedNewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
@@ -47,5 +50,17 @@
         <argument
             android:name="article"
             app:argType="com.example.newsapp.model.data_classes.Article" />
+    </fragment>
+    <fragment
+        android:id="@+id/sharedNewsFragment"
+        android:name="com.example.newsapp.view.fragments.SharedNewsFragment"
+        android:label="SharedNewsFragment">
+        <argument
+            android:name="articleUrl"
+            app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="newsapp.com/viewnews/{articleUrl}" />
+
     </fragment>
 </navigation>
