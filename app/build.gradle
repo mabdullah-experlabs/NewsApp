@@ -86,4 +86,7 @@ dependencies {
     implementation "io.insert-koin:koin-android:3.3.3"
     implementation "io.insert-koin:koin-androidx-navigation:3.3.3"
 
+    //branch.io
+    implementation 'io.branch.sdk.android:library:5.2.6'
+
 }
